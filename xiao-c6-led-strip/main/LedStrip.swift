@@ -21,12 +21,12 @@ struct LedStrip {
       led_model: LED_MODEL_WS2812,
       flags: .init(invert_out: 0)
     )
-    var spiConfig = led_strip_spi_config_t(
-      clk_src: SPI_CLK_SRC_DEFAULT,
-      spi_bus: SPI2_HOST,
+    var spiConfig = led_strip_rmt_config_t(
+      clk_src: RMT_CLK_SRC_DEFAULT,
+      resolution_hz : UInt32(10 * 1000 * 1000),
       flags: .init(with_dma: 1)
     )
-    guard led_strip_new_spi_device(&stripConfig, &spiConfig, &handle) == ESP_OK else {
+    guard led_strip_new_rmt_device(&stripConfig, &rmt_config, &handle) == ESP_OK else {
       fatalError("cannot configure spi device")
     }
     self.handle = handle!
